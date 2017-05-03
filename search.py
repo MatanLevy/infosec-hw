@@ -21,7 +21,8 @@ class GadgetSearch(object):
             dump_path: The path to the memory dump file created with GDB.
             start_addr: The starting memory address of this dump.
         """
-        raise NotImplementedError()
+        self.dump = open(dump_path).read()
+        self.start_addr = start_addr
 
     def get_format_count(self, gadget_format):
         """
@@ -38,7 +39,14 @@ class GadgetSearch(object):
         # Hint: Use the string.Formatter().parse method:
         #   import string
         #   print string.Formatter().parse(gadget_format)
-        raise NotImplementedError()
+        import string
+        it = iter(string.Formatter().parse(gadget_format))
+        a = set()
+        for i in it :
+        	if (i[1] != None):
+        		a.add(int(i[1]))
+        return len(a)
+
 
     def get_register_combos(self, nregs, registers):
         """
