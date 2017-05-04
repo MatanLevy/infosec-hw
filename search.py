@@ -60,9 +60,18 @@ class GadgetSearch(object):
                 ['ebx', 'eax'],
                 ['ebx', 'ebx']]
         """
-        raise NotImplementedError()
+        import itertools
+        return list(set(list(itertools.permutations(registers,nregs))+list(itertools.combinations_with_replacement(registers,nregs))))
 
     def format_all_gadgets(self, gadget_format, registers):
+    	numberOfPlaces = self.get_format_count(gadget_format)
+    	lst = self.get_register_combos(numberOfPlaces,registers)
+    	print(len(lst))
+    	arr = []
+    	for elem in lst:
+    		arr.append(gadget_format.format(*elem))
+    	return arr	
+
         """
         Format all the possible gadgets for this format with the given
         registers.
@@ -80,7 +89,17 @@ class GadgetSearch(object):
         #    => 'Hi Luke! I am Vader, you are Luke'
         # 2. You can use an array instead of specifying each argument. Use the
         #    internet, the force is strong with StackOverflow.
-        raise NotImplementedError()
+        
+
+
+
+    def find_all_str(a_str, sub):
+    	start = 0
+    	while True:
+    		start = a_str.find(sub, start)
+    		if start == -1: return
+    		yield start
+    		start += len(sub) # use start += 1 to find overlapping matches
 
     def find_all(self, gadget):
         """
@@ -94,7 +113,18 @@ class GadgetSearch(object):
         # 1. Addresses are ABSOLUTE (for example, 0x08403214), NOT RELATIVE to the
         #    beginning of the file (for example, 12).
         # 2. Don't forget to add the 'RET'
-        raise NotImplementedError()
+        opcode = assemble.assemble_data(gadget + '; RET')
+        import re
+        data = self.dump
+        start = self.start_addr
+        #indices = [m.start() for m in re.finditer(opcode,data)]
+        indices = find_all_str(data,opcode)
+        address_list = []
+        for index in indices:
+        	address = start + index
+        	address_list.append('%08x' % address)
+        	print('%08x' % address)	
+        return address_list
 
     def find(self, gadget, condition=None):
         """
@@ -120,7 +150,14 @@ class GadgetSearch(object):
                 ('POP ecx; POP esi', address2),
                 ...]
         """
-        raise NotImplementedError()
+        str_list = self.format_all_gadgets(gadget_format,registers)
+        arr = []
+        for s in str_list:
+        	for address in self.find_all(s):
+        		tup = (s,address)
+        		arr.extend(tup)
+        return arr
+
 
     def find_format(self, gadget_format, registers=GENERAL_REGISTERS, condition=None):
         """
