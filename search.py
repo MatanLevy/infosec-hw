@@ -93,13 +93,19 @@ class GadgetSearch(object):
 
 
 
-    def find_all_str(a_str, sub):
-    	start = 0
-    	while True:
-    		start = a_str.find(sub, start)
-    		if start == -1: return
-    		yield start
-    		start += len(sub) # use start += 1 to find overlapping matches
+
+
+    def find_all_str(data,sub):
+    	arr = []
+    	index = 0
+    	while (index < len(data)):
+    		index = data.find(sub,index)
+    		if index == -1:
+    			break
+    		arr.append(index)
+    		index += len(sub)
+    	return arr	
+
 
     def find_all(self, gadget):
         """
@@ -118,12 +124,19 @@ class GadgetSearch(object):
         data = self.dump
         start = self.start_addr
         #indices = [m.start() for m in re.finditer(opcode,data)]
-        indices = find_all_str(data,opcode)
+        indices = []
+        index = 0
+    	while (index < len(data)):
+    		index = data.find(opcode,index)
+    		if index == -1:
+    			break
+    		indices.append(index)
+    		index += len(opcode)
         address_list = []
         for index in indices:
         	address = start + index
         	address_list.append('%08x' % address)
-        	print('%08x' % address)	
+        	#print('%08x' % address)	
         return address_list
 
     def find(self, gadget, condition=None):
@@ -154,8 +167,7 @@ class GadgetSearch(object):
         arr = []
         for s in str_list:
         	for address in self.find_all(s):
-        		tup = (s,address)
-        		arr.extend(tup)
+        		arr.append((s,address))
         return arr
 
 
