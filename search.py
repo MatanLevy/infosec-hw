@@ -66,7 +66,6 @@ class GadgetSearch(object):
     def format_all_gadgets(self, gadget_format, registers):
     	numberOfPlaces = self.get_format_count(gadget_format)
     	lst = self.get_register_combos(numberOfPlaces,registers)
-    	print(len(lst))
     	arr = []
     	for elem in lst:
     		arr.append(gadget_format.format(*elem))
@@ -90,23 +89,6 @@ class GadgetSearch(object):
         # 2. You can use an array instead of specifying each argument. Use the
         #    internet, the force is strong with StackOverflow.
         
-
-
-
-
-
-    def find_all_str(data,sub):
-    	arr = []
-    	index = 0
-    	while (index < len(data)):
-    		index = data.find(sub,index)
-    		if index == -1:
-    			break
-    		arr.append(index)
-    		index += len(sub)
-    	return arr	
-
-
     def find_all(self, gadget):
         """
         Return all the addresses of the gadget inside the memory dump.
@@ -123,10 +105,9 @@ class GadgetSearch(object):
         import re
         data = self.dump
         start = self.start_addr
-        #indices = [m.start() for m in re.finditer(opcode,data)]
-        indices = []
+        indices = []  #will be there all indexed of substring opcode in data
         index = 0
-    	while (index < len(data)):
+    	while (index < len(data)):  #find all substring equals opcode to data
     		index = data.find(opcode,index)
     		if index == -1:
     			break

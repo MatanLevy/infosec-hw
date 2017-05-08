@@ -1,0 +1,9 @@
+i. this will not happen because we first mov puts adrress to ebp.so the prolog in puts function will not fill the ebp in wrong adrress ,
+but will be the updated puts adress. therefore our loop is working and there is no overwrite of addresses.
+
+ii. we need to skip 4 bytes, because when returing from puts address, we want to make an infinite loop.so adding 4 to esp and then pop esp command will make exactly our esp to be in the place in order to get after that loop adress and go back to puts function.
+So,the skip of 4 bytes is used in order to move our esp to the right address in order to return again to puts function
+
+iii. it was in the end of ROP because every string has null terminator and putting it at the begining will strcpy(from sudo program) to finish copying. so the only place to put our string is at the end. so all the ROP can be copied.
+
+Genrally, I've made excatly what you asked us to do,and found all the hardcoded address by looking at gdb running sudo and crashing.

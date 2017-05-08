@@ -1,0 +1,6 @@
+I've used the same technique as was in the lecture - return to libc.
+so first I put system function address.in order to jump there.
+then I set in trash the return adrress of system.
+and then I put the only paramter - "/bin/sh" string.
+
+I found all the address using your instruction, from the gdb

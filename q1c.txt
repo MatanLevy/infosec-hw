@@ -1,0 +1,2 @@
+soultion is excatly as in q1b
+just this time instead of trash in return adress from system I put there exit function and after that 66 which is the parameter for exit function,

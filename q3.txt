@@ -1,0 +1,7 @@
+In my solution I've created a shellcode based on ROP method which we learned In the class.
+the shellcode is actions is get the adrress of global variable auth (using IDA).
+then I've put in register value 1.
+and then put the value 1 in address of auth.
+after that I wrote the return address in the main.so the program will go back to main and print Victory.
+
+concat all this command,using ROP logic will make it command by command.
